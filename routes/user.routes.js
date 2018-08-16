@@ -72,6 +72,9 @@ router.post('/login', (req,res, next)=>{
 router.route('/profile')
     .get(checkJwt, (req,res, next) =>{
         User.findOne({_id: req.decoded.user._id}, (err, user)=>{
+        
+
+
             res.json({
                 success:true,
                 user: user,
@@ -93,9 +96,10 @@ router.route('/profile')
                 success:true,
                 message: 'prefir cambiado'
             })
-
         })
     })
 
      
+
+
 module.exports = router

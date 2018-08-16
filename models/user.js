@@ -11,6 +11,7 @@ const UserSchema = new Schema({
     picture:String,
     created: {type:Date, default: Date.now},
     client:[{type:Schema.Types.ObjectId, ref:'Client'}],
+    clientnumero:Number
 })
 
 
