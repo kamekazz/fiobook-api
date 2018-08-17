@@ -24,9 +24,11 @@ app.use(
 )
 
 const userRouters = require('./routes/user.routes')
+const clienteRouters = require('./routes/cliente.routes')
 
 
 app.use('/api/accounts',userRouters)
+app.use('/api/cliente',clienteRouters)
 
 
 

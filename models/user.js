@@ -9,9 +9,10 @@ const UserSchema = new Schema({
     tienda:String,
     password:String,
     picture:String,
+    telefono:{type:Number},
     created: {type:Date, default: Date.now},
-    client:[{type:Schema.Types.ObjectId, ref:'Client'}],
-    clientnumero:Number
+    admin:Boolean,
+    denudaId:[{type:Schema.Types.ObjectId, ref:'Denuda'}]
 })
 
 
