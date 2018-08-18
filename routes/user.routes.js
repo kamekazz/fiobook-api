@@ -70,16 +70,16 @@ router.post('/login', (req,res, next)=>{
 
 router.route('/profile')
     .get(checkJwt, (req,res, next) =>{
-        User.findOne({_id: req.decoded.user._id}, (err, user)=>{
-        
-
-
-            res.json({
-                success:true,
-                user: user,
-                message:'Successful'
+        User.findOne({_id: req.decoded.user._id})
+            .select("email tienda password picture admin")
+            .then(data =>{
+                res.json({
+                    success:true,
+                    user: data,
+                    message:'Successful'
+                })
             })
-        })
+
     })
     .post(checkJwt, (req,res, next) =>{
         User.findOne({_id: req.decoded.user._id}, (err, user)=>{

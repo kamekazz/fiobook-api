@@ -16,11 +16,11 @@ const ClienteSchema = new Schema({
         tel1:Number,
         tel2:Number
     },
-    cedula:{type:Number,unique:true},
-    denudaId:[{type:Schema.Types.ObjectId, ref:'Denuda'}],
+    cedula:Number,
+    deudaId:[{type:Schema.Types.ObjectId, ref:'Debet'}],
     userId:{type:Schema.Types.ObjectId, ref:'User'},
     dtotal:Number,
-
+    created: {type:Date, default: Date.now}
 })
 
 module.exports = mongoose.model('Cliente',ClienteSchema)

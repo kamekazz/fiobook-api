@@ -12,7 +12,7 @@ const UserSchema = new Schema({
     telefono:{type:Number},
     created: {type:Date, default: Date.now},
     admin:Boolean,
-    denudaId:[{type:Schema.Types.ObjectId, ref:'Denuda'}]
+    deudaId:[{type:Schema.Types.ObjectId, ref:'Debet'}]
 })
 
 

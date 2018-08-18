@@ -5,17 +5,68 @@ const checkJwt = require('../middleware/check-jwt')
 
 
 
-router.post('/new/name', checkJwt, (req,res,next) =>{
+
+router.post('/:id', checkJwt, (req,res,next) =>{
+    Cliente.findOne({_id: req.params.id},(err, nameFindTru)=>{
+        if (nameFindTru) {
+            res.json({
+                success:false,
+                message:'client ya exsieste'
+            })          
+        } else {
+            res.json({
+                success: true,
+                message: 'clien en contrado',
+                cliente:nameFindTru
+            })
+        }
+    })
+
+})
+
+router.post('/old/name', checkJwt, (req,res,next) =>{
+
 
     let cliente = new Cliente
     cliente.name = req.body.name
     cliente.apodo = req.body.apodo
     cliente.cedula = req.body.cedula
     cliente.userId = req.decoded.user
-    cliente.dtotal = req.body.dtotal
+
 
     Cliente.findOne({name: req.body.name},(err, nameFindTru)=>{
+
+
         if (nameFindTru) {
+            res.json({
+                success:false,
+                message:'client ya exsieste'
+            })          
+        } else {
+            cliente.save()
+            res.json({
+                success: true,
+                message: ' Nuevo cliente liste',
+            })
+            
+        }
+    })
+
+})
+
+router.post('/new/cedula', checkJwt, (req,res,next) =>{
+
+    let cliente = new Cliente
+    cliente.name = req.body.name
+    cliente.apodo = req.body.apodo
+    cliente.cedula = req.body.cedula
+    cliente.userId = req.decoded.user
+
+
+    Cliente.findOne({cedula: req.body.cedula},(err, nameFindTru)=>{
+
+
+        if  (nameFindTru) {
             res.json({
                 success:false,
                 message:'client ya exsieste'
