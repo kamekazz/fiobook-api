@@ -1,14 +1,14 @@
 const router = require('express').Router()
 const Debet = require('../models/denuda')
 const Cliente = require('../models/cliente')
-
 const checkJwt = require('../middleware/check-jwt')
-
+const async = require('async')
 
 
 router.get('/', checkJwt, (req,res,next) =>{
     Debet.find({userId: req.decoded.user},(err, todoslasdeuda)=>{
         if (todoslasdeuda) {
+          
             res.json({
                 success: true,
                 message: 'Todas las lista de deuda',
@@ -50,31 +50,37 @@ router.get('/pendiente', checkJwt, (req,res,next) =>{
 
 
 router.post('/new', checkJwt, (req,res,next) =>{
-
-    let debet = new Debet
-    debet.name = req.body.name
-    debet.nota = req.body.nota
-    debet.clienteId = req.body.clienteId
-    debet.userId = req.decoded.user
-    debet.capmax = req.body.capmax
-    debet.total = req.body.total
-
-    Debet.findOne({name: req.body.name},(err, debetFindTru)=>{
-        if (debetFindTru) {
-            res.json({
-                success:false,
-                message:'deuda ya exsieste'
-            })        
-        } else {
-
-            debet.save()
-            res.json({
-                success: true,
-                message: ' Nuevo deuda liste',
+    async.waterfall([
+        function (callback) {
+            Cliente.findOne({_id: req.body.cienteId},(err, cienteId)=>{
+                if (cienteId) {
+                    callback(err,cienteId)
+                } else if (err) {
+                    res.json({
+                        success: false,
+                        message:'valor del cliente lesto'
+                    })
+                }
             })
-        }
-    })
+        },
+        function (cienteId) {
+            let debet = new Debet
+            debet.name = req.body.name
+            debet.nota = req.body.nota
+            debet.clienteId = req.body.clienteId
+            debet.userId = req.decoded.user
+            debet.capmax = req.body.capmax
+            debet.total = req.body.total
 
+            cienteId.deudaId.push(debet._id)
+            cienteId.save()
+            debet.save()
+                res.json({
+                    success: true,
+                    message:'dete del cliente lesto'
+                })
+        }
+    ])
 })
 
 router.get('/:id', checkJwt, (req,res,next) =>{
@@ -95,7 +101,7 @@ router.get('/:id', checkJwt, (req,res,next) =>{
             totalDeuda
             
             data.total = totalDeuda - totalpago
-            data.save()
+
             res.json({
                 success:true,
                 message: 'tu libro',
@@ -132,13 +138,36 @@ router.put('/:id', checkJwt, (req,res,next) =>{
                 message:err
             })
         } else {
-            data.save()
-
-            res.json({
-                success:true,
-                message:'dete updete',
-                data:data
-            })
+            if (data) {
+                let pagos1 = data.pagos
+                let totalpago = 0
+                
+                for (let index = 0; index < pagos1.length; index++) {
+                    totalpago += pagos1[index].cantida
+                }
+                let dabets1 = data.dabets
+                let totalDeuda = 0
+                    for (let index = 0; index < dabets1.length; index++) {
+                        totalDeuda += dabets1[index].cantida
+                    }
+                totalpago
+                totalDeuda
+                
+                data.total = totalDeuda - totalpago
+                data.save()
+                res.json({
+                    success:true,
+                    message: 'tu libro',
+                    data: data,
+                    dabetTotal: totalDeuda,
+                    pagoTotal: totalpago,
+                })
+            } else {
+                res.json({
+                    success:false,
+                    message: 'error'
+                })
+            }
         }
 
     })

@@ -26,8 +26,11 @@ app.use(
 const userRouters = require('./routes/user.routes')
 const clienteRouters = require('./routes/cliente.routes')
 const denudaRouters = require('./routes/denuda.routes')
+const reviewRouters = require('./routes/review.routes')
 
 
+
+app.use('/api/review',reviewRouters)
 
 app.use('/api/accounts',userRouters)
 app.use('/api/cliente',clienteRouters)

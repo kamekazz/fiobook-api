@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
+const deepPopulate = require('mongoose-deep-populate') (mongoose)
 
 const ClienteSchema = new Schema({
     name:{type:String,unique:true,lowercase:true},
@@ -21,6 +22,24 @@ const ClienteSchema = new Schema({
     userId:{type:Schema.Types.ObjectId, ref:'User'},
     dtotal:Number,
     created: {type:Date, default: Date.now}
+},{
+    toObject:{virtuals: true},
+    toJSON:{virtuals: true},
 })
+    ClienteSchema
+    .virtual('averageRating')
+    .get(function () {
+        var rating = 0
+        if (this.reviews.length == 0) {
+            rating = 0
+        } else {
+            this.reviews.map((review)=>{
+                rating += review.star
+            })
+            rating = rating / this.reviews.length
+        }
+        return rating
+    })
 
+ClienteSchema.plugin(deepPopulate)
 module.exports = mongoose.model('Cliente',ClienteSchema)

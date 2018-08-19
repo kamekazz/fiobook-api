@@ -4,25 +4,24 @@ const Cliente = require('../models/cliente')
 const checkJwt = require('../middleware/check-jwt')
 
 
-
-
-router.post('/:id', checkJwt, (req,res,next) =>{
-    Cliente.findOne({_id: req.params.id},(err, nameFindTru)=>{
-        if (nameFindTru) {
-            res.json({
-                success:false,
-                message:'client ya exsieste'
-            })          
-        } else {
-            res.json({
-                success: true,
-                message: 'clien en contrado',
-                cliente:nameFindTru
-            })
-        }
+router.get('/:id', checkJwt, (req,res,next) =>{
+    let clien =Cliente.findOne({_id: req.params.id})
+    clien.populate('reviews')
+    clien.populate('deudaId')
+    clien.deepPopulate('reviews.userId')
+    
+    clien.exec(function (err,data) {
+        if (err) return handleError(err);
+        res.json({
+            success:true,
+            message:'cliente en encontrado',
+            data:data,
+        }) 
     })
 
 })
+
+
 
 router.post('/old/name', checkJwt, (req,res,next) =>{
 
@@ -94,7 +93,7 @@ router.route('/address/:id')
     })
 })
 
-.post(checkJwt, (req,res, next) =>{
+.put(checkJwt, (req,res, next) =>{
     Cliente.findOne({_id: req.params.id}, (err, cliente)=>{
         if (err) return next(err);
 
