@@ -2,10 +2,30 @@ const router = require('express').Router()
 const Cliente = require('../models/cliente')
 
 const checkJwt = require('../middleware/check-jwt')
+// /api/cliente
+
+
+
+router.get('/', checkJwt, (req,res,next) =>{
+    let clien =Cliente.find()
+    clien.populate('reviews')
+    clien.populate('deudaId')
+    clien.deepPopulate('reviews.userId')
+    
+    clien.exec(function (err,data) { 
+        if (err) return handleError(err);
+        res.json({
+            success:true,
+            message:'todos los clientes',
+            data:data,
+        }) 
+    })
+
+})
 
 
 router.get('/:id', checkJwt, (req,res,next) =>{
-    let clien =Cliente.findOne({_id: req.params.id})
+    let clien = Cliente.findOne({_id: req.params.id})
     clien.populate('reviews')
     clien.populate('deudaId')
     clien.deepPopulate('reviews.userId')

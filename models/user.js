@@ -11,7 +11,6 @@ const UserSchema = new Schema({
     picture:String,
     telefono:{type:Number},
     created: {type:Date, default: Date.now},
-    admin:Boolean,
     deudaId:[{type:Schema.Types.ObjectId, ref:'Debet'}]
 })
 

@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
+const deepPopulate = require('mongoose-deep-populate')(mongoose)
 
 const DebetSchema = new Schema({
-    name:{type:String,unique:true},
+    name:String,
     nota:String,
     clienteId:{type:Schema.Types.ObjectId, ref:'Cliente'},
     userId:{type:Schema.Types.ObjectId, ref:'User'},
@@ -20,7 +21,7 @@ const DebetSchema = new Schema({
     capmax:Number,
     total:Number,
     vivo: {type:Boolean, default:true},
-
+ 
 })
-
+DebetSchema.plugin(deepPopulate)
 module.exports = mongoose.model('Debet',DebetSchema)
