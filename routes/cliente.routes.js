@@ -1,12 +1,50 @@
 const router = require('express').Router()
 const Cliente = require('../models/cliente')
-
+const async = require('async')
 const checkJwt = require('../middleware/check-jwt')
 // /api/cliente
 
 
 
-router.get('/', checkJwt, (req,res,next) =>{
+router.get('/',checkJwt, (req,res,next) =>{
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+  async.waterfall([
+      function (callback) {
+            Cliente.find({name:regex},(err,clientesQuerryName)=>{
+                if (clientesQuerryName) {
+                    callback(err,clientesQuerryName)
+                }
+            })
+        },    
+      function (clientesQuerryName) {
+        Cliente.find({apodo:regex},(err,clientesQuerryApodo)=>{
+            if (clientesQuerryApodo) {
+                res.json({
+                    success: true,
+                    message:'Good',
+                    clientesQuerryApodo:clientesQuerryApodo,
+                    clientesQuerryName:clientesQuerryName
+                })
+            }
+
+
+        })
+      }
+
+  ])
+        
+
+
+
+
+
+
+
+    
+})  
+
+
+router.get('/todos', checkJwt, (req,res,next) =>{
     let clien =Cliente.find()
     clien.populate('reviews')
     clien.populate('deudaId')
@@ -40,6 +78,10 @@ router.get('/:id', checkJwt, (req,res,next) =>{
     })
 
 })
+
+
+
+
 
 
 
@@ -133,5 +175,9 @@ router.route('/address/:id')
         
     })
 })
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports = router
