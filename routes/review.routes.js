@@ -6,6 +6,7 @@ const async = require('async')
 
 const checkJwt = require('../middleware/check-jwt')
 
+// api/review
 
 router.post('/new',checkJwt,(req,res,next)=>{
     async.waterfall([
@@ -27,7 +28,7 @@ router.post('/new',checkJwt,(req,res,next)=>{
 
             if(req.body.star)review.star = req.body.star
             if (req.body.nota) review.nota = req.body.nota
-            if (req.body.deudaId) review.deudaId = req.body.deudaId
+
 
             cienteId.reviews.push(review._id)
             cienteId.save()

@@ -4,9 +4,8 @@ const Schema = mongoose.Schema;
 
 
 const ReviewSchema = new Schema({
-    star:Number,
+    star:{type:Number,default:0},
     nota:String,
-    deudaId:{type:Schema.Types.ObjectId, ref:'Debet'},
     userId:{type:Schema.Types.ObjectId, ref:'User'},
     created: {type:Date, default: Date.now}
 })

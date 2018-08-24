@@ -99,26 +99,49 @@ router.post('/:id', checkJwt, (req,res,next) =>{
         if (err) return next(err);
 
         if (req.body.pagos) {
-            data.pagos.push({cantida: req.body.pagos ,nota:req.body.nota })
+            data.pagos.unshift({cantida: req.body.pagos ,nota:req.body.nota })
             data.save()
             res.json({
                 success:true,
                 message: 'pago listo'
             })
-        }
-        if (req.body.dabets) {
-            data.dabets.push({cantida:req.body.dabets, nota:req.body.nota })
+        } else if (req.body.dabets) {
+            data.dabets.unshift({cantida:req.body.dabets, nota:req.body.nota })
             data.save()
             res.json({
                 success:true,
                 message: 'fiado a puntado'
+
+            })
+        }   else{
+            res.json({
+                success:false,
+                message: 'no se proseso la ransacsion'
             })
         }
-
-
     })
-
 })
 
+
+router.post('/edit/:id', checkJwt, (req,res,next) =>{
+    Debet.findOne({_id: req.params.id},(err, data)=>{
+        if (err) return next(err);
+        if (data) {
+            if(req.body.name) data.name = req.body.name;
+            if(req.body.nota) data.nota = req.body.nota;
+            if(req.body.vivo) data.vivo = req.body.vivo;
+            data.save()
+            res.json({
+                success:true,
+                message: 'deuda a sido edit'
+            })   
+        } else {
+            res.json({
+                success:false,
+                message: 'false a  edit'
+            })  
+        }
+    })
+})
 
 module.exports = router
