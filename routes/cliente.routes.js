@@ -26,22 +26,38 @@ router.get('/',checkJwt, (req,res,next) =>{
                     clientesQuerryName:clientesQuerryName
                 })
             }
-
-
         })
       }
-
   ])
         
 
-
-
-
-
-
-
-    
 })  
+
+router.get('/porcedula/:id', checkJwt, (req,res,next) =>{
+    Cliente.findOne({cedula:req.params.id},(err,data)=>{
+    
+        if (err) {
+            res.json({
+                success:false,
+                message:err
+            })
+        } else if (data.length < 1) {
+
+            res.json({
+                success:false,
+                message: 'No Ahy Cliente Con ese Numero de Cedula'
+            })
+
+        } else{
+            res.json({
+                success:true,
+                message:'Cliente en Contrado',
+                data:data
+            })
+        }
+    })
+})
+
 
 
 router.get('/todos', checkJwt, (req,res,next) =>{
@@ -108,12 +124,15 @@ router.post('/old/name', checkJwt, (req,res,next) =>{
             res.json({
                 success: true,
                 message: ' Nuevo cliente liste',
+                cliente:cliente._id
             })
             
         }
     })
 
 })
+
+
 
 router.post('/new/cedula', checkJwt, (req,res,next) =>{
 
