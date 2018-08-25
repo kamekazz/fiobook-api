@@ -15,7 +15,7 @@ router.get('/',checkJwt, (req,res,next) =>{
                     callback(err,clientesQuerryName)
                 }
             })
-        },    
+    },    
       function (clientesQuerryName) {
         Cliente.find({apodo:regex},(err,clientesQuerryApodo)=>{
             if (clientesQuerryApodo) {
@@ -29,9 +29,7 @@ router.get('/',checkJwt, (req,res,next) =>{
         })
       }
   ])
-        
-
-})  
+})
 
 router.get('/porcedula/:id', checkJwt, (req,res,next) =>{
     Cliente.findOne({cedula:req.params.id},(err,data)=>{
