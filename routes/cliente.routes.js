@@ -72,7 +72,7 @@ router.get('/todos', checkJwt, (req,res,next) =>{
             success:true,
             message:'todos los clientes',
             data:data,
-        }) 
+        })
     })
 
 })
