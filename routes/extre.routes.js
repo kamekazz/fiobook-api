@@ -23,20 +23,33 @@ router.get('/', checkJwt, (req,res,next) =>{
             })
         } else if (data.length < 1) {
             res.json({
-                success:true,
-                message:'no exsite quiente con ese nombre',
+                success:false,
+                message:'No Ahy Cliente Con ese Numbre  O Apodo',
             })
         } else{
             res.json({
                 success:true,
-                message:'lista de lientes',
+                message:'Lista de Cliente:',
                 data:data
             }) 
         }
     })
 })
 
-
+router.get('/todosnomebreyapodo', checkJwt, (req,res,next) =>{
+    let query = Debet.find({userId: req.decoded.user})
+    query.find({ vivo: true })
+    query.sort({ total: -1 })
+    query.select('name')
+    query.exec(function (err, data) {
+            res.json({
+                success:true,
+                message:'lista de Cliente',
+                data:data
+            }) 
+        
+    })
+})
 
 
 
