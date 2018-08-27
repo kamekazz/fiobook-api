@@ -40,6 +40,6 @@ app.use('/api/debet',denudaRouters)
 
 
 
-app.listen(3030,()=>{
+app.listen(process.env.PORT || 3030 ,()=>{
     console.log('node.js server is runing........');
 })
