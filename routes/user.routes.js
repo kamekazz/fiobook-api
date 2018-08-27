@@ -49,7 +49,7 @@ router.post('/login', (req,res, next)=>{
             if (!validPassword) {
                 res.json({
                     success: false,
-                    message: 'claveno exsiete'
+                    message: 'Clave Encorecta'
                 })
             } else{
                 var token = jwt.sign(
