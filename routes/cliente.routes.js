@@ -122,7 +122,7 @@ router.post('/old/name', checkJwt, (req,res,next) =>{
             res.json({
                 success: true,
                 message: ' Nuevo cliente liste',
-                cliente:cliente._id
+                cliente:cliente
             })
             
         }
