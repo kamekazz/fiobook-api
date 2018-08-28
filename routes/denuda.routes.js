@@ -49,7 +49,8 @@ router.post('/new', checkJwt, (req,res,next) =>{
             debet.save()
                 res.json({
                     success: true,
-                    message:'dete del cliente lesto'
+                    message:'dete del cliente lesto',
+                    id:debet._id
                 })
         }
     ])
