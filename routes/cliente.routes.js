@@ -111,7 +111,6 @@ router.post('/old/name', checkJwt, (req,res,next) =>{
 
     Cliente.findOne({name: req.body.name},(err, nameFindTru)=>{
 
-
         if (nameFindTru) {
             res.json({
                 success:false,
@@ -124,8 +123,8 @@ router.post('/old/name', checkJwt, (req,res,next) =>{
                 message: ' Nuevo cliente liste',
                 cliente:cliente
             })
-            
         }
+
     })
 
 })

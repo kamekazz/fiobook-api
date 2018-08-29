@@ -74,7 +74,6 @@ router.get('/:id', checkJwt, (req,res,next) =>{
                 }
             totalpago
             totalDeuda
-            
             data.total = totalDeuda - totalpago
             data.save()
             res.json({
@@ -117,7 +116,7 @@ router.post('/:id', checkJwt, (req,res,next) =>{
         }   else{
             res.json({
                 success:false,
-                message: 'no se proseso la ransacsion'
+                message: 'no se proseso la transacsion'
             })
         }
     })
