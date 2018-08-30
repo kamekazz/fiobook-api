@@ -8,7 +8,7 @@ const confingP = require('./config')
 
 const app =  express()
 
-mongoose.connect(`mongodb://${confingP.mlabU}:${confingP.mlabP}@ds121382.mlab.com:21382/libro`,{ useNewUrlParser: true },(err)=>{
+mongoose.connect(`mongodb://${confingP.mlabU}:${confingP.mlabP}@ds233452.mlab.com:21382/libro`,{ useNewUrlParser: true },(err)=>{
     if (err) {
         console.log(`Mcod:.......................v1.0 ${err}`);
     } else {
