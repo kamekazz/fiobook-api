@@ -109,7 +109,7 @@ router.post('/old/name', checkJwt, (req,res,next) =>{
     cliente.userId = req.decoded.user
 
 
-    Cliente.findOne({name: req.body.name},(err, nameFindTru)=>{
+    Cliente.findOne({cedula: req.body.cedula},(err, nameFindTru)=>{
 
         if (nameFindTru) {
             res.json({
