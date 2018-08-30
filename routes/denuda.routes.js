@@ -130,11 +130,12 @@ router.post('/edit/:id', checkJwt, (req,res,next) =>{
             if(req.body.name) data.name = req.body.name;
             if(req.body.nota) data.nota = req.body.nota;
             if(req.body.vivo) data.vivo = req.body.vivo;
+            if(req.body.capmax) data.capmax = req.body.capmax;
             data.save()
             res.json({
                 success:true,
                 message: 'deuda a sido edit'
-            })   
+            })
         } else {
             res.json({
                 success:false,
