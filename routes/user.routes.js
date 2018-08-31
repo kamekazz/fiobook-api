@@ -56,7 +56,6 @@ router.post('/login', (req,res, next)=>{
                     {user: user},config.secret,
                     {expiresIn:'7d'}
                 );
-
                 res.json({
                     success:true,
                     message: 'listo!! comiensa fiar',
