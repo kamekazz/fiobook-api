@@ -61,27 +61,19 @@ router.post('/new', checkJwt, (req,res,next) =>{
 router.get('/:id', checkJwt, (req,res,next) =>{
     Debet.findOne({_id: req.params.id},(err, data)=>{
         if (data) {
-            let pagos1 = data.pagos
-            let totalpago = 0
-            
-            for (let index = 0; index < pagos1.length; index++) {
-                totalpago += pagos1[index].cantida
-            }
             let dabets1 = data.dabets
             let totalDeuda = 0
                 for (let index = 0; index < dabets1.length; index++) {
                     totalDeuda += dabets1[index].cantida
                 }
-            totalpago
             totalDeuda
-            data.total = totalDeuda - totalpago
+            data.total = totalDeuda 
             data.save()
             res.json({
                 success:true,
                 message: 'tu libro',
                 data: data,
                 dabetTotal: totalDeuda,
-                pagoTotal: totalpago,
             })
         } else {
             res.json({
@@ -129,7 +121,7 @@ router.post('/edit/:id', checkJwt, (req,res,next) =>{
         if (data) {
             if(req.body.name) data.name = req.body.name;
             if(req.body.nota) data.nota = req.body.nota;
-            if(req.body.vivo) data.vivo = req.body.vivo;
+            if(req.body.vivo) data.vivo = req.body.vivo;//favorito
             if(req.body.capmax) data.capmax = req.body.capmax;
             data.save()
             res.json({
@@ -145,4 +137,68 @@ router.post('/edit/:id', checkJwt, (req,res,next) =>{
     })
 })
 
+router.post('/tajadeforo/:id', checkJwt, (req,res,next)=>{
+    Debet.findOne({_id: req.params.id},(err,data)=>{
+        if (err) return next(err);
+        if (data) {
+            if (req.body.pagos) {
+                data.pagos.unshift({cantida: req.body.pagos ,nota:req.body.nota,historyfio:data.dabets})
+                data.dabets = []
+                data.dabets.unshift({cantida:req.body.newTotal, nota:req.body.nota })
+                data.save()
+                    res.json({
+                        success:true,
+                        message: 'nose encuenta',
+                        data:data
+                    }) 
+            } 
+        } else  {
+            res.json({
+                success:false,
+                message: 'nose encuenta'
+            })  
+        } 
+    })
+})
+
+
 module.exports = router
+
+// router.get('/:id', checkJwt, (req,res,next) =>{
+//     Debet.findOne({_id: req.params.id},(err, data)=>{
+//         if (data) {
+//             let pagos1 = data.pagos
+//             let totalpago = 0
+            
+//             for (let index = 0; index < pagos1.length; index++) {
+//                 totalpago += pagos1[index].cantida
+//             }
+//             let dabets1 = data.dabets
+//             let totalDeuda = 0
+//                 for (let index = 0; index < dabets1.length; index++) {
+//                     totalDeuda += dabets1[index].cantida
+//                 }
+//             totalpago
+//             totalDeuda
+//             data.total = totalDeuda - totalpago
+//             data.save()
+//             res.json({
+
+//                 success:true,
+//                 message: 'tu libro',
+//                 data: data,
+//                 dabetTotal: totalDeuda,
+//                 pagoTotal: totalpago,
+
+//             })
+
+//         } else {
+//             res.json({
+//                 success:false,
+//                 message: 'error'
+//             })
+//         }
+
+//     })
+
+// })

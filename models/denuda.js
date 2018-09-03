@@ -11,7 +11,13 @@ const DebetSchema = new Schema({
     pagos:[{
         nota:String,
         cantida:{type:Number, default:0},
-        created:{type:Date, default: Date.now}
+        created:{type:Date, default: Date.now},
+        historyfio:[
+            {
+                cantida:{type:Number, default:0},
+                created:{type:Date, default: Date.now},
+            }
+        ]
     }],
     dabets:[{
         nota:String,
@@ -20,7 +26,7 @@ const DebetSchema = new Schema({
     }],
     capmax:Number,
     total:Number,
-    vivo: {type:Boolean, default:true},
+    vivo: {type:Boolean, default:true},//favorito
  
 })
 DebetSchema.plugin(deepPopulate)
