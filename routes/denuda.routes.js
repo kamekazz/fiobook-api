@@ -148,7 +148,7 @@ router.post('/tajadeforo/:id', checkJwt, (req,res,next)=>{
                 data.save()
                     res.json({
                         success:true,
-                        message: 'nose encuenta',
+                        message: 'Supago Esta Facturado',
                         data:data
                     }) 
             } 
@@ -160,6 +160,8 @@ router.post('/tajadeforo/:id', checkJwt, (req,res,next)=>{
         } 
     })
 })
+
+
 
 
 module.exports = router
