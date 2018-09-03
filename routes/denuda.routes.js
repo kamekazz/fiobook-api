@@ -148,7 +148,7 @@ router.post('/tajadeforo/:id', checkJwt, (req,res,next)=>{
                 data.save()
                     res.json({
                         success:true,
-                        message: 'Supago Esta Facturado',
+                        message: 'Su Pago Esta Facturado',
                         data:data
                     }) 
             } 
