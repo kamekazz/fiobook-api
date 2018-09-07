@@ -28,6 +28,7 @@ const clienteRouters = require('./routes/cliente.routes')
 const denudaRouters = require('./routes/denuda.routes')
 const reviewRouters = require('./routes/review.routes')
 const extraRouters = require('./routes/extre.routes')
+const msmRouters = require('./routes/msm.routes')
 
 
 
@@ -36,6 +37,7 @@ app.use('/api/extre',extraRouters)
 app.use('/api/accounts',userRouters)
 app.use('/api/cliente',clienteRouters)
 app.use('/api/debet',denudaRouters)
+app.use('/api/msm',msmRouters)
 
 
 
